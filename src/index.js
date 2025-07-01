@@ -29,9 +29,9 @@ if (process.env.NODE_ENV === "development") {
 
 const PORT = process.env.PORT || 8000;
 
-const privateKeyPath = path.join(__dirname, "../PossBackend/pv.key");
-const certificatePath = path.join(__dirname, "../PossBackend/certificata.crt");
-const caficatePath = path.join(__dirname, "../PossBackend/ca.crt");
+const privateKeyPath = path.join(__dirname, "../../PossBackend/pv.key");
+const certificatePath = path.join(__dirname, "../../PossBackend/certificata.crt");
+const caficatePath = path.join(__dirname, "../../PossBackend/ca.crt");
 const privateKey = fs.readFileSync(privateKeyPath, "utf8");
 const certificate = fs.readFileSync(certificatePath, "utf8");
 const caficate = fs.readFileSync(caficatePath, "utf8");
