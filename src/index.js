@@ -1,15 +1,15 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import fs from "fs";
-import https from "https";
-import path from "path";
-import connectDB from "./config/db";
+const express = require("express");
+const cors =require("cors");
+const dotenv = require("dotenv");
+const fs = require("fs");
+const https = require("https");
+const path = require("path");
+const connectDB = require("./config/db");
 
-import blogCategoryRoutes from "./routes/blogCategoryRoutes";
-import blogRoutes from "./routes/blogRoutes";
-import userRoutes from "./routes/userRoutes";
-import contactInfoRoutes from "./routes/contactInfoRoutes";
+const blogCategoryRoutes = require("./routes/blogCategoryRoutes");
+const blogRoutes = require("./routes/blogRoutes");
+const userRoutes = require("./routes/userRoutes");
+const contactInfoRoutes =require("./routes/contactInfoRoutes");
 
 dotenv.config();
 const app = express();
