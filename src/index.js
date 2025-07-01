@@ -1,5 +1,5 @@
 const express = require("express");
-const cors =require("cors");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const fs = require("fs");
 const https = require("https");
@@ -9,7 +9,7 @@ const connectDB = require("./config/db");
 const blogCategoryRoutes = require("./routes/blogCategoryRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
-const contactInfoRoutes =require("./routes/contactInfoRoutes");
+const contactInfoRoutes = require("./routes/contactInfoRoutes");
 
 dotenv.config();
 const app = express();
@@ -37,16 +37,17 @@ app.get("/", (_req, res) => {
 const startServer = async () => {
   await connectDB();
 
-const privateKeyPath = path.join(__dirname, "../PossBackend/pv.key");
-const certificatePath = path.join(__dirname, "../PossBackend/certificata.crt");
-const caficatePath = path.join(__dirname, "../PossBackend/ca.crt");
-const privateKey = fs.readFileSync(privateKeyPath, "utf8");
-const certificate = fs.readFileSync(certificatePath, "utf8");
-const caficate = fs.readFileSync(caficatePath, "utf8");
+  const privateKeyPath = path.join(__dirname, "../PossBackend/pv.key");
+  const certificatePath = path.join(__dirname, "../PossBackend/certificata.crt");
+  const caficatePath = path.join(__dirname, "../PossBackend/ca.crt");
 
-const credentials = { key: privateKey, cert: certificate, ca: caficate };
+  const privateKey = fs.readFileSync(privateKeyPath, "utf8");
+  const certificate = fs.readFileSync(certificatePath, "utf8");
+  const caficate = fs.readFileSync(caficatePath, "utf8");
 
-  https.createServer({ key, cert }, app).listen(PORT, () => {
+  const credentials = { key: privateKey, cert: certificate, ca: caficate };
+
+  https.createServer(credentials, app).listen(PORT, () => {
     console.log(`🔒 HTTPS Server running at https://localhost:${PORT}`);
   });
 };
