@@ -23,10 +23,7 @@ console.log("🧩 Static files will be served from:", path.join(__dirname, "publ
 app.use("/public", express.static(path.join(__dirname, "../public")));
 
 // Routes
-app.use("/api/auth", userRoutes);
-app.use("/api/blog-categories", blogCategoryRoutes);
-app.use("/api/blogs", blogRoutes);
-app.use("/api/contactInfo", contactInfoRoutes);
+
 
 // Test route
 app.get("/", (_req, res) => {
