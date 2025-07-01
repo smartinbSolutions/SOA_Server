@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const fs = require("fs");
 const https = require("https");
 const path = require("path");
-const connectDB = require("./config/db");
+const connectDB = require("./config/db.js");
 
 const blogCategoryRoutes = require("./routes/blogCategoryRoutes.js");
 const blogRoutes = require("./routes/blogRoutes.js");
