@@ -1,47 +1,48 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const db_1 = __importDefault(require("./config/db"));
-const blogCategoryRoutes_1 = __importDefault(require("./routes/blogCategoryRoutes"));
-const blogRoutes_1 = __importDefault(require("./routes/blogRoutes"));
-const userRoutes_1 = __importDefault(require("./routes//userRoutes"));
-const contactInfoRoutes_1 = __importDefault(require("./routes/contactInfoRoutes"));
-const path_1 = __importDefault(require("path"));
-dotenv_1.default.config();
-const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import fs from "fs";
+import https from "https";
+import path from "path";
+import connectDB from "./config/db";
+
+import blogCategoryRoutes from "./routes/blogCategoryRoutes";
+import blogRoutes from "./routes/blogRoutes";
+import userRoutes from "./routes/userRoutes";
+import contactInfoRoutes from "./routes/contactInfoRoutes";
+
+dotenv.config();
+const app = express();
 const PORT = process.env.PORT || 3001;
-app.use(express_1.default.json());
-console.log("🧩 Static files will be served from:", path_1.default.join(__dirname, "public"));
-app.use("/public", express_1.default.static(path_1.default.join(__dirname, "../public")));
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+
+console.log("🧩 Static files will be served from:", path.join(__dirname, "public"));
+app.use("/public", express.static(path.join(__dirname, "../public")));
+
 // Routes
-app.use("/api/auth", userRoutes_1.default);
-app.use("/api/blog-categories", blogCategoryRoutes_1.default);
-app.use("/api/blogs", blogRoutes_1.default);
-app.use("/api/contactInfo", contactInfoRoutes_1.default);
-// Test Route
+app.use("/api/auth", userRoutes);
+app.use("/api/blog-categories", blogCategoryRoutes);
+app.use("/api/blogs", blogRoutes);
+app.use("/api/contactInfo", contactInfoRoutes);
+
+// Test route
 app.get("/", (_req, res) => {
-    res.send("✅ API is up and running!");
+  res.send("✅ API is up and running with HTTPS!");
 });
-// Start Server
-const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, db_1.default)();
-    app.listen(PORT, () => {
-        console.log(`🚀 Server running on http://localhost:${PORT}`);
-    });
-});
+
+// Start HTTPS Server
+const startServer = async () => {
+  await connectDB();
+
+  const key = fs.readFileSync(path.join(__dirname, "key.pem"));
+  const cert = fs.readFileSync(path.join(__dirname, "cert.pem"));
+
+  https.createServer({ key, cert }, app).listen(PORT, () => {
+    console.log(`🔒 HTTPS Server running at https://localhost:${PORT}`);
+  });
+};
+
 startServer();
