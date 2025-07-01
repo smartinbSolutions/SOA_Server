@@ -37,8 +37,14 @@ app.get("/", (_req, res) => {
 const startServer = async () => {
   await connectDB();
 
-  const key = fs.readFileSync(path.join(__dirname, "key.pem"));
-  const cert = fs.readFileSync(path.join(__dirname, "cert.pem"));
+const privateKeyPath = path.join(__dirname, "../PossBackend/pv.key");
+const certificatePath = path.join(__dirname, "../PossBackend/certificata.crt");
+const caficatePath = path.join(__dirname, "../PossBackend/ca.crt");
+const privateKey = fs.readFileSync(privateKeyPath, "utf8");
+const certificate = fs.readFileSync(certificatePath, "utf8");
+const caficate = fs.readFileSync(caficatePath, "utf8");
+
+const credentials = { key: privateKey, cert: certificate, ca: caficate };
 
   https.createServer({ key, cert }, app).listen(PORT, () => {
     console.log(`🔒 HTTPS Server running at https://localhost:${PORT}`);
