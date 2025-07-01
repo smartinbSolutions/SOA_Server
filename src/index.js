@@ -26,6 +26,10 @@ if (process.env.NODE_ENV === "development") {
   console.log(`mode: ${process.env.NODE_ENV}`);
 }
 
+app.use("/api/auth", userRoutes);
+app.use("/api/blog-categories", blogCategoryRoutes);
+app.use("/api/blogs", blogRoutes);
+app.use("/api/contactInfo", contactInfoRoutes);
 
 const PORT = process.env.PORT || 8000;
 
