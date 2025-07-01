@@ -10,7 +10,7 @@ const blogCategoryRoutes = require("./routes/blogCategoryRoutes.js");
 const blogRoutes = require("./routes/blogRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const contactInfoRoutes = require("./routes/contactInfoRoutes.js");
-dotenv.config({ path: "config.env" });
+dotenv.config({ path: ".env" });
 
 connectDB();
 
