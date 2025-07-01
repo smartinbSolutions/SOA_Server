@@ -1,20 +1,40 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const blogController_1 = require("../controllers/blogController");
-const multerSetup_1 = require("../middlewares/multerSetup");
-const router = (0, express_1.Router)();
-router.post("/", multerSetup_1.upload.fields([
+const express = require("express");
+const {
+  createBlog,
+  getAllBlogs,
+  getBlogsByCategory,
+  getBlogBySlug,
+  getBlogById,
+  updateBlog,
+  deleteBlog,
+} = require("../controllers/blogController");
+const { upload } = require("../middlewares/multerSetup");
+
+const router = express.Router();
+
+router.post(
+  "/",
+  upload.fields([
     { name: "coverImage", maxCount: 1 },
     { name: "thumbnailImage", maxCount: 1 },
-]), blogController_1.createBlog);
-router.get("/", blogController_1.getAllBlogs);
-router.get("/category/:slug", blogController_1.getBlogsByCategory);
-router.get("/slug/:slug", blogController_1.getBlogBySlug);
-router.get("/:id", blogController_1.getBlogById);
-router.put("/:id", multerSetup_1.upload.fields([
+  ]),
+  createBlog
+);
+
+router.get("/", getAllBlogs);
+router.get("/category/:slug", getBlogsByCategory);
+router.get("/slug/:slug", getBlogBySlug);
+router.get("/:id", getBlogById);
+
+router.put(
+  "/:id",
+  upload.fields([
     { name: "coverImage", maxCount: 1 },
     { name: "thumbnailImage", maxCount: 1 },
-]), blogController_1.updateBlog);
-router.delete("/:id", blogController_1.deleteBlog);
-exports.default = router;
+  ]),
+  updateBlog
+);
+
+router.delete("/:id", deleteBlog);
+
+module.exports = router;
