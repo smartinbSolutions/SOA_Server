@@ -6,10 +6,10 @@ const https = require("https");
 const path = require("path");
 const connectDB = require("./config/db.js");
 
-const blogCategoryRoutes = require("./routes/blogCategoryRoutes.js");
-const blogRoutes = require("./routes/blogRoutes.js");
-const userRoutes = require("./routes/userRoutes.js");
-const contactInfoRoutes = require("./routes/contactInfoRoutes.js");
+const blogCategoryRoutes = require("./routes/blogCategoryRoutes");
+const blogRoutes = require("./routes/blogRoutes");
+const userRoutes = require("./routes/userRoutes");
+const contactInfoRoutes = require("./routes/contactInfoRoutes");
 dotenv.config({ path: ".env" });
 
 connectDB();
@@ -26,10 +26,6 @@ if (process.env.NODE_ENV === "development") {
   console.log(`mode: ${process.env.NODE_ENV}`);
 }
 
-app.use("/api/auth", userRoutes);
-app.use("/api/blog-categories", blogCategoryRoutes);
-app.use("/api/blogs", blogRoutes);
-app.use("/api/contactInfo", contactInfoRoutes);
 
 const PORT = process.env.PORT || 8000;
 
